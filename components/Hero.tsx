@@ -67,23 +67,6 @@ export default function Hero() {
             </button>
           </motion.div>
 
-          {/* Special Offer */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100"
-          >
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              🎉 Grand Opening Special
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Get 20% off your first order when you order online!
-            </p>
-            <div className="text-sm text-gray-500">
-              Use code: <span className="font-mono bg-orange-100 px-2 py-1 rounded">WELCOME20</span>
-            </div>
-          </motion.div>
         </div>
       </div>
 

@@ -171,9 +171,6 @@ export default function Contact() {
             <button className="btn-primary">
               Order Online
             </button>
-            <button className="btn-secondary">
-              Make a Reservation
-            </button>
           </div>
         </motion.div>
       </div>
