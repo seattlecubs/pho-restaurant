@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic HTML Example - Learning HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 30px;
+        }
+        .code-example {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        input, textarea, select {
+            margin: 5px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- This is a comment in HTML -->
+        <h1>Welcome to HTML Basics!</h1>
+        
+        <h2>1. What is HTML?</h2>
+        <p>HTML stands for <strong>HyperText Markup Language</strong>. It's the standard markup language for creating web pages. HTML uses <span class="highlight">tags</span> to structure content.</p>
+        
+        <h2>2. Basic HTML Structure</h2>
+        <div class="code-example">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;p&gt;This is my first paragraph.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+        
+        <h2>3. Common HTML Elements</h2>
+        
+        <h3>Headings</h3>
+        <p>HTML has 6 levels of headings:</p>
+        <h1>Heading 1 (h1)</h1>
+        <h2>Heading 2 (h2)</h2>
+        <h3>Heading 3 (h3)</h3>
+        <h4>Heading 4 (h4)</h4>
+        <h5>Heading 5 (h5)</h5>
+        <h6>Heading 6 (h6)</h6>
+        
+        <h3>Text Formatting</h3>
+        <p>This is a <strong>bold text</strong> and this is <em>italic text</em>.</p>
+        <p>You can also use <u>underlined text</u> and <mark>highlighted text</mark>.</p>
+        <p>Here's some <code>inline code</code> and a <a href="https://www.example.com">link</a>.</p>
+        
+        <h3>Lists</h3>
+        <h4>Unordered List (ul):</h4>
+        <ul>
+            <li>First item</li>
+            <li>Second item</li>
+            <li>Third item</li>
+        </ul>
+        
+        <h4>Ordered List (ol):</h4>
+        <ol>
+            <li>Step one</li>
+            <li>Step two</li>
+            <li>Step three</li>
+        </ol>
+        
+        <h3>Tables</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>25</td>
+                    <td>New York</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>30</td>
+                    <td>Los Angeles</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>4. Images</h2>
+        <p>Here's how to add an image (using a placeholder):</p>
+        <div class="code-example">
+&lt;img src="image.jpg" alt="Description of image" width="300" height="200"&gt;
+        </div>
+        <img src="https://via.placeholder.com/300x200/007bff/ffffff?text=Sample+Image" alt="Sample placeholder image">
+        
+        <h2>5. Forms</h2>
+        <div class="form-example">
+            <h3>Contact Form</h3>
+            <form action="#" method="post">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+                
+                <label for="age">Age:</label><br>
+                <input type="number" id="age" name="age" min="1" max="120"><br><br>
+                
+                <label for="country">Country:</label><br>
+                <select id="country" name="country">
+                    <option value="">Select a country</option>
+                    <option value="us">United States</option>
+                    <option value="ca">Canada</option>
+                    <option value="uk">United Kingdom</option>
+                </select><br><br>
+                
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="4" cols="50"></textarea><br><br>
+                
+                <label>
+                    <input type="checkbox" name="newsletter"> Subscribe to newsletter
+                </label><br><br>
+                
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </form>
+        </div>
+        
+        <h2>6. HTML Attributes</h2>
+        <p>HTML elements can have attributes that provide additional information:</p>
+        <div class="code-example">
+&lt;a href="https://www.example.com" target="_blank"&gt;External Link&lt;/a&gt;
+&lt;img src="photo.jpg" alt="Photo description" width="400" height="300"&gt;
+&lt;div class="container" id="main-content"&gt;Content here&lt;/div&gt;
+        </div>
+        
+        <h2>7. Semantic HTML</h2>
+        <p>Use semantic elements to give meaning to your content:</p>
+        <div class="code-example">
+&lt;header&gt;Page header&lt;/header&gt;
+&lt;nav&gt;Navigation menu&lt;/nav&gt;
+&lt;main&gt;
+    &lt;article&gt;Main article content&lt;/article&gt;
+    &lt;section&gt;Section content&lt;/section&gt;
+&lt;/main&gt;
+&lt;aside&gt;Sidebar content&lt;/aside&gt;
+&lt;footer&gt;Page footer&lt;/footer&gt;
+        </div>
+        
+        <h2>8. Key Points to Remember</h2>
+        <ul>
+            <li>HTML tags usually come in pairs: opening &lt;tag&gt; and closing &lt;/tag&gt;</li>
+            <li>Some tags are self-closing: &lt;img&gt;, &lt;br&gt;, &lt;hr&gt;</li>
+            <li>Always close your tags in the reverse order you opened them</li>
+            <li>Use lowercase for tag names and attribute names</li>
+            <li>Always include alt text for images for accessibility</li>
+            <li>Use semantic HTML for better structure and SEO</li>
+        </ul>
+        
+        <h2>9. Next Steps</h2>
+        <p>Once you understand HTML basics, you can learn:</p>
+        <ol>
+            <li><strong>CSS</strong> - for styling and layout</li>
+            <li><strong>JavaScript</strong> - for interactivity</li>
+            <li><strong>Responsive Design</strong> - for mobile-friendly websites</li>
+            <li><strong>Web Accessibility</strong> - for inclusive design</li>
+        </ol>
+        
+        <hr>
+        <footer>
+            <p><em>This is a basic HTML example for learning purposes. Practice by creating your own pages!</em></p>
+        </footer>
+    </div>
+</body>
+</html>
+
+

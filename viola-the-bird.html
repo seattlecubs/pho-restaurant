@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola the Bird - Interactive Musical Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .viola-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .viola-body {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border-radius: 50px 50px 20px 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .viola-body:hover {
+            transform: scale(1.05);
+        }
+
+        .viola-body:active {
+            transform: scale(0.95);
+        }
+
+        .viola-neck {
+            width: 20px;
+            height: 150px;
+            background: linear-gradient(45deg, #654321, #8B4513);
+            border-radius: 10px;
+            position: absolute;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .viola-head {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(45deg, #654321, #8B4513);
+            border-radius: 20px;
+            position: absolute;
+            top: -190px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .strings {
+            position: absolute;
+            top: -140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 120px;
+        }
+
+        .string {
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .string:nth-child(1) { left: 20%; }
+        .string:nth-child(2) { left: 40%; }
+        .string:nth-child(3) { left: 60%; }
+        .string:nth-child(4) { left: 80%; }
+
+        .bow {
+            width: 200px;
+            height: 8px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            cursor: grab;
+            transition: transform 0.1s ease;
+            z-index: 5;
+        }
+
+        .bow:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) rotate(45deg) scale(0.95);
+        }
+
+        .bow-hair {
+            width: 180px;
+            height: 2px;
+            background: linear-gradient(to right, #F5F5DC, #DEB887);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 1px;
+        }
+
+        .musical-notes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .note {
+            position: absolute;
+            color: #FFD700;
+            font-size: 2rem;
+            animation: float 3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.5);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #FFD700, transparent);
+            border-radius: 50%;
+            animation: sparkle 2s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-50px);
+            }
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .control-btn {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .frequency-display {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .waveform {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .waveform-canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="title">Viola the Bird</h1>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="toggleSound()">🔊 Sound</button>
+            <button class="control-btn" onclick="changeInstrument()">🎵 Instrument</button>
+            <button class="control-btn" onclick="toggleBackgroundMusic()">🎼 Background Music</button>
+            <input type="range" class="volume-slider" id="volume" min="0" max="1" step="0.1" value="0.5">
+            <span style="color: white; font-size: 0.8rem;">Volume</span>
+        </div>
+
+        <div class="frequency-display" id="frequency">Frequency: 440 Hz</div>
+
+        <div class="viola-container">
+            <div class="musical-notes" id="musical-notes"></div>
+            <div class="particles" id="particles"></div>
+            
+            <div class="viola-body" id="viola-body">
+                <div class="viola-neck"></div>
+                <div class="viola-head"></div>
+                <div class="strings">
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                    <div class="string"></div>
+                </div>
+            </div>
+            
+            <div class="bow" id="bow">
+                <div class="bow-hair"></div>
+            </div>
+        </div>
+
+        <div class="waveform">
+            <canvas class="waveform-canvas" id="waveform-canvas"></canvas>
+        </div>
+
+        <div class="instructions">
+            Click and drag the viola to play! Move your mouse around to change the pitch.<br>
+            Use the controls to adjust volume, change instruments, and play background music.
+        </div>
+    </div>
+
+    <script>
+        class ViolaTheBird {
+            constructor() {
+                this.audioContext = null;
+                this.oscillator = null;
+                this.gainNode = null;
+                this.isPlaying = false;
+                this.currentFrequency = 440;
+                this.volume = 0.5;
+                this.instrumentType = 'viola';
+                this.soundEnabled = true;
+                this.backgroundMusicEnabled = false;
+                this.backgroundAudio = null;
+                this.mouseDown = false;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupAudio();
+                this.setupEventListeners();
+                this.setupWaveform();
+                this.createParticles();
+            }
+
+            setupAudio() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.gainNode = this.audioContext.createGain();
+                    this.gainNode.connect(this.audioContext.destination);
+                    this.gainNode.gain.value = this.volume;
+                } catch (error) {
+                    console.log('Web Audio API not supported');
+                    this.soundEnabled = false;
+                }
+            }
+
+            setupEventListeners() {
+                const violaBody = document.getElementById('viola-body');
+                const bow = document.getElementById('bow');
+                const volumeSlider = document.getElementById('volume');
+
+                // Viola body interactions - Fixed mouse control
+                violaBody.addEventListener('mousedown', (e) => {
+                    this.mouseDown = true;
+                    this.startPlaying(e);
+                });
+                
+                violaBody.addEventListener('mousemove', (e) => {
+                    if (this.mouseDown) {
+                        this.updateFrequency(e);
+                    }
+                });
+                
+                violaBody.addEventListener('mouseup', () => {
+                    this.mouseDown = false;
+                    this.stopPlaying();
+                });
+                
+                violaBody.addEventListener('mouseleave', () => {
+                    this.mouseDown = false;
+                    this.stopPlaying();
+                });
+
+                // Touch events for mobile
+                violaBody.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.startPlaying(e.touches[0]);
+                });
+                violaBody.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    this.updateFrequency(e.touches[0]);
+                });
+                violaBody.addEventListener('touchend', () => this.stopPlaying());
+
+                // Bow interactions
+                bow.addEventListener('mousedown', (e) => this.startBowDrag(e));
+                document.addEventListener('mousemove', (e) => this.updateBowPosition(e));
+                document.addEventListener('mouseup', () => this.stopBowDrag());
+
+                // Volume control
+                volumeSlider.addEventListener('input', (e) => {
+                    this.volume = parseFloat(e.target.value);
+                    if (this.gainNode) {
+                        this.gainNode.gain.value = this.volume;
+                    }
+                });
+                
+                // Global mouse events to ensure proper mouse up handling
+                document.addEventListener('mouseup', () => {
+                    this.mouseDown = false;
+                    this.stopPlaying();
+                });
+            }
+
+            startPlaying(e) {
+                if (!this.soundEnabled) return;
+                
+                this.isPlaying = true;
+                this.updateFrequency(e);
+                this.createNote();
+                this.createParticleBurst(e.clientX, e.clientY);
+                
+                // Resume audio context if suspended
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+            }
+
+            updateFrequency(e) {
+                if (!this.isPlaying) return;
+
+                const rect = document.getElementById('viola-body').getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Map position to frequency (200-800 Hz)
+                const freqX = 200 + (x / rect.width) * 600;
+                const freqY = 200 + (y / rect.height) * 600;
+                this.currentFrequency = (freqX + freqY) / 2;
+
+                if (this.oscillator) {
+                    this.oscillator.frequency.setValueAtTime(this.currentFrequency, this.audioContext.currentTime);
+                } else {
+                    this.createOscillator();
+                }
+
+                this.updateFrequencyDisplay();
+                this.updateWaveform();
+                
+                // Create visual feedback
+                this.createNote();
+                this.createParticleBurst(e.clientX, e.clientY);
+            }
+
+            createOscillator() {
+                if (!this.audioContext) return;
+
+                this.oscillator = this.audioContext.createOscillator();
+                this.oscillator.type = this.getWaveformType();
+                this.oscillator.frequency.setValueAtTime(this.currentFrequency, this.audioContext.currentTime);
+                
+                // Add some harmonics for more realistic sound
+                const harmonic1 = this.audioContext.createOscillator();
+                const harmonic2 = this.audioContext.createOscillator();
+                
+                harmonic1.type = this.getWaveformType();
+                harmonic2.type = this.getWaveformType();
+                
+                harmonic1.frequency.setValueAtTime(this.currentFrequency * 2, this.audioContext.currentTime);
+                harmonic2.frequency.setValueAtTime(this.currentFrequency * 3, this.audioContext.currentTime);
+                
+                const harmonicGain1 = this.audioContext.createGain();
+                const harmonicGain2 = this.audioContext.createGain();
+                
+                harmonicGain1.gain.value = 0.3;
+                harmonicGain2.gain.value = 0.1;
+                
+                this.oscillator.connect(this.gainNode);
+                harmonic1.connect(harmonicGain1).connect(this.gainNode);
+                harmonic2.connect(harmonicGain2).connect(this.gainNode);
+                
+                this.oscillator.start();
+                harmonic1.start();
+                harmonic2.start();
+            }
+
+            stopPlaying() {
+                this.isPlaying = false;
+                if (this.oscillator) {
+                    this.oscillator.stop();
+                    this.oscillator = null;
+                }
+            }
+
+            getWaveformType() {
+                switch(this.instrumentType) {
+                    case 'viola': return 'sine';
+                    case 'violin': return 'triangle';
+                    case 'cello': return 'sawtooth';
+                    default: return 'sine';
+                }
+            }
+
+            createNote() {
+                const notes = ['♪', '♫', '♬', '♩', '♭', '♮', '♯'];
+                const note = document.createElement('div');
+                note.className = 'note';
+                note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                note.style.left = Math.random() * 80 + 10 + '%';
+                note.style.animationDelay = Math.random() * 0.5 + 's';
+                
+                document.getElementById('musical-notes').appendChild(note);
+                
+                setTimeout(() => {
+                    note.remove();
+                }, 3000);
+            }
+
+            createParticleBurst(x, y) {
+                for (let i = 0; i < 10; i++) {
+                    this.createParticle(x, y);
+                }
+            }
+
+            createParticle(x, y) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                
+                document.getElementById('particles').appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            }
+
+            updateFrequencyDisplay() {
+                document.getElementById('frequency').textContent = 
+                    `Frequency: ${Math.round(this.currentFrequency)} Hz`;
+            }
+
+            setupWaveform() {
+                this.canvas = document.getElementById('waveform-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.canvas.width = 300;
+                this.canvas.height = 60;
+            }
+
+            updateWaveform() {
+                if (!this.ctx) return;
+
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.strokeStyle = '#FFD700';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+
+                const amplitude = 20;
+                const frequency = this.currentFrequency / 100;
+                
+                for (let x = 0; x < this.canvas.width; x++) {
+                    const y = this.canvas.height / 2 + 
+                             Math.sin(x * frequency * 0.1) * amplitude * (this.isPlaying ? 1 : 0);
+                    if (x === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+                
+                this.ctx.stroke();
+            }
+
+            startBowDrag(e) {
+                this.bowDragging = true;
+                this.bowStartX = e.clientX;
+                this.bowStartY = e.clientY;
+            }
+
+            updateBowPosition(e) {
+                if (!this.bowDragging) return;
+                
+                const bow = document.getElementById('bow');
+                const deltaX = e.clientX - this.bowStartX;
+                const deltaY = e.clientY - this.bowStartY;
+                
+                bow.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(45deg)`;
+                
+                // Create sound when bow moves
+                if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+                    this.createParticleBurst(e.clientX, e.clientY);
+                }
+            }
+
+            stopBowDrag() {
+                this.bowDragging = false;
+                const bow = document.getElementById('bow');
+                bow.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+            }
+
+            toggleSound() {
+                this.soundEnabled = !this.soundEnabled;
+                if (!this.soundEnabled && this.oscillator) {
+                    this.stopPlaying();
+                }
+            }
+
+            toggleBackgroundMusic() {
+                this.backgroundMusicEnabled = !this.backgroundMusicEnabled;
+                if (this.backgroundMusicEnabled) {
+                    this.startBackgroundMusic();
+                } else {
+                    this.stopBackgroundMusic();
+                }
+            }
+
+            startBackgroundMusic() {
+                // Create a simple classical cello melody using Web Audio API
+                if (!this.audioContext) return;
+                
+                const melody = [
+                    { note: 'C3', duration: 0.5 },
+                    { note: 'E3', duration: 0.5 },
+                    { note: 'G3', duration: 0.5 },
+                    { note: 'C4', duration: 1.0 },
+                    { note: 'G3', duration: 0.5 },
+                    { note: 'E3', duration: 0.5 },
+                    { note: 'C3', duration: 1.0 },
+                    { note: 'D3', duration: 0.5 },
+                    { note: 'F3', duration: 0.5 },
+                    { note: 'A3', duration: 0.5 },
+                    { note: 'D4', duration: 1.0 },
+                    { note: 'A3', duration: 0.5 },
+                    { note: 'F3', duration: 0.5 },
+                    { note: 'D3', duration: 1.0 }
+                ];
+
+                const noteFrequencies = {
+                    'C3': 130.81, 'D3': 146.83, 'E3': 164.81, 'F3': 174.61, 'G3': 196.00, 'A3': 220.00,
+                    'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00, 'A4': 440.00
+                };
+
+                let currentTime = this.audioContext.currentTime;
+                
+                melody.forEach((note, index) => {
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(noteFrequencies[note.note], currentTime);
+                    
+                    gainNode.gain.setValueAtTime(0, currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.1, currentTime + 0.1);
+                    gainNode.gain.linearRampToValueAtTime(0, currentTime + note.duration);
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(this.audioContext.destination);
+                    
+                    oscillator.start(currentTime);
+                    oscillator.stop(currentTime + note.duration);
+                    
+                    currentTime += note.duration;
+                });
+
+                // Loop the melody
+                setTimeout(() => {
+                    if (this.backgroundMusicEnabled) {
+                        this.startBackgroundMusic();
+                    }
+                }, currentTime * 1000);
+            }
+
+            stopBackgroundMusic() {
+                // The background music will stop naturally when the oscillators finish
+                // This is handled by the setTimeout in startBackgroundMusic
+            }
+
+            changeInstrument() {
+                const instruments = ['viola', 'violin', 'cello'];
+                const currentIndex = instruments.indexOf(this.instrumentType);
+                this.instrumentType = instruments[(currentIndex + 1) % instruments.length];
+                
+                // Update visual appearance
+                const violaBody = document.getElementById('viola-body');
+                const colors = {
+                    'viola': 'linear-gradient(45deg, #8B4513, #A0522D)',
+                    'violin': 'linear-gradient(45deg, #CD853F, #DEB887)',
+                    'cello': 'linear-gradient(45deg, #654321, #8B4513)'
+                };
+                violaBody.style.background = colors[this.instrumentType];
+                
+                // Update title based on instrument
+                const title = document.querySelector('.title');
+                const instrumentNames = {
+                    'viola': 'Viola the Bird',
+                    'violin': 'Violin the Bird', 
+                    'cello': 'Cello the Bird'
+                };
+                title.textContent = instrumentNames[this.instrumentType];
+            }
+        }
+
+        // Global game instance
+        let violaGame;
+
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            violaGame = new ViolaTheBird();
+            window.violaGame = violaGame;
+        });
+
+        // Global functions for button controls
+        function toggleSound() {
+            if (violaGame) {
+                violaGame.toggleSound();
+            }
+        }
+
+        function changeInstrument() {
+            if (violaGame) {
+                violaGame.changeInstrument();
+            }
+        }
+
+        function toggleBackgroundMusic() {
+            if (violaGame) {
+                violaGame.toggleBackgroundMusic();
+            }
+        }
+
+        // Animation loop for waveform
+        setInterval(() => {
+            if (violaGame && violaGame.updateWaveform) {
+                violaGame.updateWaveform();
+            }
+        }, 50);
+    </script>
+</body>
+</html> 

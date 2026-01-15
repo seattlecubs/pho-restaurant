@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Pho Kho Gia Lai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .text-gradient {
+      background: linear-gradient(to right, #ea580c, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .btn-primary {
+      background-color: #ea580c;
+      color: #fff;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover {
+      background-color: #c2410c;
+    }
+  </style>
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col justify-center items-center">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mt-12">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gradient">Sign Up</h1>
+    <form id="signup-form" class="space-y-5">
+      <div>
+        <label for="name" class="block text-gray-700 font-medium mb-1">Name</label>
+        <input type="text" id="name" name="name" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+      </div>
+      <div>
+        <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+        <input type="email" id="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+      </div>
+      <div>
+        <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
+        <input type="password" id="password" name="password" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Captcha: <span id="captcha-question"></span></label>
+        <input type="text" id="captcha-answer" name="captcha" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+        <span id="captcha-error" class="text-red-500 text-sm hidden">Incorrect answer. Please try again.</span>
+      </div>
+      <button type="submit" class="btn-primary w-full text-lg">Sign Up</button>
+    </form>
+    <div id="success-message" class="hidden mt-6 text-green-600 text-center font-semibold">Sign up successful!</div>
+  </div>
+  <script>
+    // Simple math captcha
+    function generateCaptcha() {
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      document.getElementById('captcha-question').textContent = `${a} + ${b} = ?`;
+      return a + b;
+    }
+    let captchaResult = generateCaptcha();
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const answer = document.getElementById('captcha-answer').value;
+      if (parseInt(answer) !== captchaResult) {
+        document.getElementById('captcha-error').classList.remove('hidden');
+        captchaResult = generateCaptcha();
+        return;
+      } else {
+        document.getElementById('captcha-error').classList.add('hidden');
+      }
+      // Simulate successful sign up
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('success-message').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html> 
