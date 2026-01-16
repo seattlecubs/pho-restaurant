@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { StarIcon, ClockIcon, MapPinIcon } from '@heroicons/react/24/solid'
+import Link from 'next/link'
+import { restaurant } from '@/lib/config'
 
 export default function Hero() {
   return (
@@ -20,10 +22,10 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-gradient">Pho Kho Gia Lai</span>
+              <span className="text-gradient">{restaurant.name}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8">
-              Authentic Vietnamese Cuisine in the Heart of Libertyville
+              {restaurant.tagline} in the Heart of {restaurant.address.city}
             </p>
           </motion.div>
 
@@ -40,15 +42,15 @@ export default function Hero() {
               <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
               <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
               <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
-              <span className="ml-2 text-gray-700 font-medium">4.8/5</span>
+              <span className="ml-2 text-gray-700 font-medium">{restaurant.rating}/5</span>
             </div>
             <div className="flex items-center space-x-2 text-gray-600">
               <ClockIcon className="w-5 h-5" />
-              <span>Tue-Sun 11AM-8PM</span>
+              <span>{restaurant.hoursShort}</span>
             </div>
             <div className="flex items-center space-x-2 text-gray-600">
               <MapPinIcon className="w-5 h-5" />
-              <span>Libertyville, IL</span>
+              <span>{restaurant.address.city}, {restaurant.address.state}</span>
             </div>
           </motion.div>
 
@@ -59,12 +61,12 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <button className="btn-primary text-lg px-8 py-4">
-              Order Online Now
-            </button>
-            <button className="btn-secondary text-lg px-8 py-4">
+            <a href={restaurant.phoneLink} className="btn-primary text-lg px-8 py-4">
+              Call to Order
+            </a>
+            <Link href="/menu" className="btn-secondary text-lg px-8 py-4">
               View Full Menu
-            </button>
+            </Link>
           </motion.div>
 
         </div>
@@ -74,4 +76,4 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   )
-} 
+}

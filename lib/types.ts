@@ -6,6 +6,7 @@ export interface MenuItem {
   price: number
   category: string
   imageEmoji: string
+  imageUrl?: string
   isAvailable: boolean
   isPopular?: boolean
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { StarIcon } from '@heroicons/react/24/solid'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function MenuPreview() {
@@ -13,6 +13,7 @@ export default function MenuPreview() {
       description: 'Our signature pho with tender rare steak and homemade meatballs in aromatic beef broth simmered for 12 hours.',
       price: 14.99,
       imageEmoji: '🍜',
+      imageUrl: 'https://images.unsplash.com/photo-1503764654157-72d979d9af2f?w=600&h=400&fit=crop',
       isPopular: true
     },
     {
@@ -22,6 +23,7 @@ export default function MenuPreview() {
       description: 'Traditional spicy beef noodle soup with lemongrass, shrimp paste, and thick rice noodles from Central Vietnam.',
       price: 15.99,
       imageEmoji: '🍲',
+      imageUrl: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=600&h=400&fit=crop',
       isPopular: true
     },
     {
@@ -31,6 +33,7 @@ export default function MenuPreview() {
       description: 'Fresh shrimp, pork, vermicelli, and herbs wrapped in rice paper. Served with peanut sauce (2 pcs).',
       price: 6.99,
       imageEmoji: '🥬',
+      imageUrl: 'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&h=400&fit=crop',
       isPopular: false
     },
     {
@@ -40,6 +43,7 @@ export default function MenuPreview() {
       description: 'Crispy turmeric crepe filled with shrimp, pork, and bean sprouts. Served with fresh herbs and dipping sauce.',
       price: 13.99,
       imageEmoji: '🥞',
+      imageUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop',
       isPopular: true
     },
     {
@@ -49,6 +53,7 @@ export default function MenuPreview() {
       description: 'Golden fried eggrolls stuffed with pork, vegetables, and glass noodles. Served with fish sauce (3 pcs).',
       price: 7.99,
       imageEmoji: '🥟',
+      imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&h=400&fit=crop',
       isPopular: false
     },
     {
@@ -58,6 +63,7 @@ export default function MenuPreview() {
       description: 'Rice vermicelli bowl topped with marinated grilled beef, fresh vegetables, herbs, and fish sauce.',
       price: 14.99,
       imageEmoji: '🥗',
+      imageUrl: 'https://images.unsplash.com/photo-1547928578-bca3e9c5a0ab?w=600&h=400&fit=crop',
       isPopular: false
     }
   ]
@@ -90,8 +96,20 @@ export default function MenuPreview() {
               viewport={{ once: true }}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="h-48 bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center">
-                <span className="text-6xl">{dish.imageEmoji}</span>
+              <div className="relative h-48 bg-gradient-to-br from-orange-100 to-red-100">
+                {dish.imageUrl ? (
+                  <Image
+                    src={dish.imageUrl}
+                    alt={dish.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="h-full flex items-center justify-center">
+                    <span className="text-6xl">{dish.imageEmoji}</span>
+                  </div>
+                )}
               </div>
 
               <div className="p-6">

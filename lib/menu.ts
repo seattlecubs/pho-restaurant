@@ -79,6 +79,7 @@ export async function getMenuData(): Promise<MenuData> {
         price: parseFloat(row.price) || 0,
         category: row.category?.toLowerCase() || 'other',
         imageEmoji: row.image_emoji || '🍽️',
+        imageUrl: row.image_url || undefined,
         isAvailable: true,
         isPopular: row.is_popular?.toLowerCase() === 'true'
       }))
@@ -113,6 +114,7 @@ function getFallbackMenuData(): MenuData {
       price: 14.99,
       category: 'pho',
       imageEmoji: '🍜',
+      imageUrl: 'https://images.unsplash.com/photo-1503764654157-72d979d9af2f?w=600&h=400&fit=crop',
       isAvailable: true,
       isPopular: true
     },
@@ -124,6 +126,7 @@ function getFallbackMenuData(): MenuData {
       price: 15.99,
       category: 'pho',
       imageEmoji: '🍲',
+      imageUrl: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=600&h=400&fit=crop',
       isAvailable: true,
       isPopular: true
     },
@@ -135,6 +138,7 @@ function getFallbackMenuData(): MenuData {
       price: 6.99,
       category: 'appetizers',
       imageEmoji: '🥬',
+      imageUrl: 'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&h=400&fit=crop',
       isAvailable: true
     },
     {
@@ -145,6 +149,7 @@ function getFallbackMenuData(): MenuData {
       price: 7.99,
       category: 'appetizers',
       imageEmoji: '🥟',
+      imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&h=400&fit=crop',
       isAvailable: true
     },
     {
@@ -155,6 +160,7 @@ function getFallbackMenuData(): MenuData {
       price: 13.99,
       category: 'specialties',
       imageEmoji: '🥞',
+      imageUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop',
       isAvailable: true,
       isPopular: true
     },
@@ -166,6 +172,7 @@ function getFallbackMenuData(): MenuData {
       price: 14.99,
       category: 'vermicelli',
       imageEmoji: '🥗',
+      imageUrl: 'https://images.unsplash.com/photo-1547928578-bca3e9c5a0ab?w=600&h=400&fit=crop',
       isAvailable: true
     },
     {
@@ -176,6 +183,7 @@ function getFallbackMenuData(): MenuData {
       price: 16.99,
       category: 'noodles',
       imageEmoji: '🍝',
+      imageUrl: 'https://images.unsplash.com/photo-1569058242567-93de6f36f8eb?w=600&h=400&fit=crop',
       isAvailable: true
     },
     {
@@ -186,6 +194,7 @@ function getFallbackMenuData(): MenuData {
       price: 15.99,
       category: 'specialties',
       imageEmoji: '🦑',
+      imageUrl: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&h=400&fit=crop',
       isAvailable: true
     }
   ]

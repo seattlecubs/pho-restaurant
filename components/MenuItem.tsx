@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { MenuItem as MenuItemType } from '@/lib/types'
 
 interface MenuItemProps {
@@ -17,8 +18,20 @@ export default function MenuItem({ item, index }: MenuItemProps) {
       viewport={{ once: true }}
       className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="h-48 bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center">
-        <span className="text-6xl">{item.imageEmoji}</span>
+      <div className="relative h-48 bg-gradient-to-br from-orange-100 to-red-100">
+        {item.imageUrl ? (
+          <Image
+            src={item.imageUrl}
+            alt={item.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="h-full flex items-center justify-center">
+            <span className="text-6xl">{item.imageEmoji}</span>
+          </div>
+        )}
       </div>
 
       <div className="p-6">

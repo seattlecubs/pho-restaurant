@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Bars3Icon, XMarkIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { restaurant } from '@/lib/config'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -29,8 +30,8 @@ export default function Header() {
               <span className="text-white font-bold text-sm">P</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">Pho Kho Gia Lai</h1>
-              <p className="text-xs text-gray-600">Authentic Vietnamese Cuisine</p>
+              <h1 className="text-xl font-bold text-gray-900">{restaurant.name}</h1>
+              <p className="text-xs text-gray-600">{restaurant.tagline}</p>
             </div>
           </motion.div>
 
@@ -49,10 +50,10 @@ export default function Header() {
 
           {/* Contact Info */}
           <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <a href={restaurant.phoneLink} className="flex items-center space-x-2 text-sm text-gray-600 hover:text-orange-600 transition-colors">
               <PhoneIcon className="w-4 h-4" />
-              <span>(224) 206-8128</span>
-            </div>
+              <span>{restaurant.phone}</span>
+            </a>
             <button className="btn-primary">
               Order Now
             </button>
@@ -91,10 +92,10 @@ export default function Header() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                <a href={restaurant.phoneLink} className="flex items-center space-x-2 text-sm text-gray-600 mb-4 hover:text-orange-600 transition-colors">
                   <PhoneIcon className="w-4 h-4" />
-                  <span>(224) 206-8128</span>
-                </div>
+                  <span>{restaurant.phone}</span>
+                </a>
                 <button className="btn-primary w-full">
                   Order Now
                 </button>

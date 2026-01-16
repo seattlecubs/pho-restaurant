@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { MapPinIcon, PhoneIcon, ClockIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { restaurant } from '@/lib/config'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -18,26 +19,33 @@ export default function Footer() {
                   <span className="text-white font-bold text-sm">P</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">Pho Kho Gia Lai</h3>
-                  <p className="text-sm text-gray-400">Authentic Vietnamese Cuisine</p>
+                  <h3 className="text-xl font-bold">{restaurant.name}</h3>
+                  <p className="text-sm text-gray-400">{restaurant.tagline}</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6 leading-relaxed">
-                Experience the authentic flavors of Vietnam in the heart of Libertyville. 
-                Our family recipes and warm hospitality create a dining experience you'll never forget.
+                {restaurant.description}
               </p>
               <div className="space-y-2 text-sm text-gray-300">
-                <div className="flex items-center space-x-2">
+                <a
+                  href={restaurant.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 hover:text-orange-400 transition-colors"
+                >
                   <MapPinIcon className="w-4 h-4" />
-                  <span>328 Peterson Rd, Libertyville, IL 60048</span>
-                </div>
-                <div className="flex items-center space-x-2">
+                  <span>{restaurant.address.full}</span>
+                </a>
+                <a
+                  href={restaurant.phoneLink}
+                  className="flex items-center space-x-2 hover:text-orange-400 transition-colors"
+                >
                   <PhoneIcon className="w-4 h-4" />
-                  <span>(224) 206-8128</span>
-                </div>
+                  <span>{restaurant.phone}</span>
+                </a>
                 <div className="flex items-center space-x-2">
                   <ClockIcon className="w-4 h-4" />
-                  <span>Tue-Sun: 11:00 AM - 8:00 PM</span>
+                  <span>{restaurant.hoursShort}</span>
                 </div>
               </div>
             </div>
@@ -47,30 +55,37 @@ export default function Footer() {
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#home" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
+                  <Link href="/" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#about" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
+                  <Link href="/#about" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#menu" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
+                  <Link href="/menu" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
                     Menu
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#contact" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
+                  <Link href="/#contact" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
                     Contact
-                  </a>
+                  </Link>
                 </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">
-                    Order Online
-                  </a>
-                </li>
+                {restaurant.social.yelp && (
+                  <li>
+                    <a
+                      href={restaurant.social.yelp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:text-orange-400 transition-colors duration-200"
+                    >
+                      Yelp Reviews
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
 
@@ -82,7 +97,6 @@ export default function Footer() {
                 <li className="text-gray-300">Takeout</li>
                 <li className="text-gray-300">Delivery</li>
                 <li className="text-gray-300">Catering</li>
-                <li className="text-gray-300">Private Events</li>
               </ul>
             </div>
           </div>
@@ -91,7 +105,7 @@ export default function Footer() {
           <div className="border-t border-gray-800 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-400 text-sm">
-                © {currentYear} Pho Kho Gia Lai. All rights reserved.
+                © {currentYear} {restaurant.name}. All rights reserved.
               </p>
               <div className="flex space-x-6">
                 <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
@@ -100,9 +114,6 @@ export default function Footer() {
                 <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
                   Terms of Service
                 </a>
-                <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
-                  Accessibility
-                </a>
               </div>
             </div>
           </div>
@@ -110,4 +121,4 @@ export default function Footer() {
       </div>
     </footer>
   )
-} 
+}

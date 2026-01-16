@@ -2,49 +2,39 @@
 
 import { motion } from 'framer-motion'
 import { MapPinIcon, PhoneIcon, ClockIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { restaurant } from '@/lib/config'
 
 export default function Contact() {
   const contactInfo = [
     {
       icon: MapPinIcon,
       title: 'Location',
-      content: '328 Peterson Rd, Libertyville, IL 60048',
-      link: 'https://maps.google.com/?q=328+Peterson+Rd,+Libertyville,+IL+60048'
+      content: restaurant.address.full,
+      link: restaurant.googleMapsUrl
     },
     {
       icon: PhoneIcon,
       title: 'Phone',
-      content: '(224) 206-8128',
-      link: 'tel:+12242068128'
+      content: restaurant.phone,
+      link: restaurant.phoneLink
     },
     {
       icon: ClockIcon,
       title: 'Hours',
-      content: 'Tue-Sun: 11:00 AM - 8:00 PM',
+      content: restaurant.hoursShort,
       link: null
     },
     {
       icon: EnvelopeIcon,
       title: 'Email',
-      content: 'info@phokhogialai.com',
-      link: 'mailto:info@phokhogialai.com'
+      content: restaurant.email,
+      link: `mailto:${restaurant.email}`
     }
-  ]
-
-  const hours = [
-    { day: 'Monday', hours: 'Closed' },
-    { day: 'Tuesday', hours: '11:00 AM - 8:00 PM' },
-    { day: 'Wednesday', hours: '11:00 AM - 8:00 PM' },
-    { day: 'Thursday', hours: '11:00 AM - 8:00 PM' },
-    { day: 'Friday', hours: '11:00 AM - 8:00 PM' },
-    { day: 'Saturday', hours: '11:00 AM - 8:00 PM' },
-    { day: 'Sunday', hours: '11:00 AM - 8:00 PM' }
   ]
 
   return (
     <section id="contact" className="section-padding bg-white">
       <div className="container-max">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +51,6 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -71,7 +60,7 @@ export default function Contact() {
             <h3 className="text-2xl font-bold text-gray-900 mb-6">
               Get in Touch
             </h3>
-            
+
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
                 <motion.div
@@ -106,26 +95,28 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Hours */}
             <div className="mt-8">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">
                 Business Hours
               </h4>
               <div className="bg-gray-50 rounded-lg p-4">
-                {hours.map((schedule, index) => (
+                {restaurant.hours.map((schedule) => (
                   <div
                     key={schedule.day}
-                    className="flex justify-between py-2 border-b border-gray-200 last:border-b-0"
+                    className={`flex justify-between py-2 border-b border-gray-200 last:border-b-0 ${
+                      !schedule.isOpen ? 'text-gray-400' : ''
+                    }`}
                   >
                     <span className="font-medium text-gray-900">{schedule.day}</span>
-                    <span className="text-gray-600">{schedule.hours}</span>
+                    <span className={schedule.isOpen ? 'text-gray-600' : 'text-red-500 font-medium'}>
+                      {schedule.hours}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Map Placeholder */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -133,27 +124,32 @@ export default function Contact() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-8 h-full">
-              <div className="text-center">
-                <div className="w-24 h-24 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <MapPinIcon className="w-12 h-12 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Find Us in Libertyville
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Located in the heart of downtown Libertyville, 
-                  we're easily accessible with plenty of parking available.
-                </p>
-                <button className="btn-primary">
-                  Get Directions
-                </button>
-              </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg h-full min-h-[400px]">
+              <iframe
+                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(restaurant.address.full)}`}
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '400px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Restaurant Location"
+              />
+            </div>
+            <div className="mt-4 text-center">
+              <a
+                href={restaurant.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center space-x-2"
+              >
+                <MapPinIcon className="w-5 h-5" />
+                <span>Get Directions</span>
+              </a>
             </div>
           </motion.div>
         </div>
 
-        {/* Call to Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -176,4 +172,4 @@ export default function Contact() {
       </div>
     </section>
   )
-} 
+}
